@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Private video advent calendar with 24 heartfelt messages." />
+    <title>Advent Video Messages</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="requires-auth">
+    <noscript>
+      <div class="noscript">
+        This experience needs JavaScript enabled to open the video surprises.
+      </div>
+    </noscript>
+
+    <header class="hero" role="banner">
+      <div class="hero__content">
+        <p class="hero__eyebrow">Countdown to Christmas</p>
+        <h1>DANČIN ADVENTNÍ KALENDÁŘ</h1>
+        <p>
+          Pozdrav na každý den.
+        </p>
+      </div>
+      <button class="hero__sign-out" type="button" data-sign-out aria-label="Odhlásit">
+        Odhlásit
+      </button>
+    </header>
+
+    <main>
+      <section class="calendar" aria-label="Advent calendar">
+        <div class="calendar__header">
+          <h2>24 videopozdravů</h2>
+          <p class="calendar__hint">
+            Klikni na políčko.
+          </p>
+        </div>
+        <div class="calendar__grid" data-calendar-grid></div>
+        <p class="calendar__progress" aria-live="polite">
+          <span data-progress-count>0</span>/24 videos unlocked
+        </p>
+      </section>
+    </main>
+
+    <section class="video-modal hidden" id="video-modal" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="video-modal__backdrop" data-close-modal></div>
+      <div class="video-modal__content" role="document">
+        <button class="video-modal__close" type="button" data-close-modal aria-label="Close video">
+          ✕
+        </button>
+        <h3 data-video-title></h3>
+        <p class="video-modal__description" data-video-description></p>
+        <div class="video-modal__player">
+          <video controls playsinline data-video-player></video>
+        </div>
+      </div>
+    </section>
+
+    <section class="auth-gate" id="auth-gate" data-visible="true" aria-hidden="false" aria-label="Private access gate">
+      <form class="auth-gate__card" id="auth-form">
+        <p class="auth-gate__eyebrow">Private messages</p>
+        <h2>Enter the shared passphrase</h2>
+        <p>
+          Only people who received the invite should have the magic word. Enter it below to
+          see the video calendar.
+        </p>
+        <label class="auth-gate__label" for="passphrase">Passphrase</label>
+        <input id="passphrase" name="passphrase" type="password" autocomplete="current-password" required
+          minlength="6" placeholder="it's on your card" />
+        <p class="auth-gate__error" id="auth-error" role="status" aria-live="assertive"></p>
+        <button type="submit">Unlock calendar</button>
+        <p class="auth-gate__hint">
+          Lost the passphrase? Reach out to your host to get access again.
+        </p>
+      </form>
+    </section>
+
+    <template id="calendar-door-template">
+      <button class="calendar__door" type="button">
+        <span class="calendar__number"></span>
+        <span class="calendar__status"></span>
+      </button>
+    </template>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

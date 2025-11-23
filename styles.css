@@ -1,0 +1,443 @@
+:root {
+  color-scheme: dark;
+  --bg: #2a0a12;
+  --card: rgba(255, 255, 255, 0.08);
+  --card-bright: rgba(255, 255, 255, 0.15);
+  --accent: #ffffff;
+  --accent-bright: #f4f6fb;
+  --danger: #ff6b75;
+  --text: #fdfdfd;
+  --muted: rgba(253, 253, 253, 0.72);
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  --door-fallback: linear-gradient(145deg, #931221, #470912);
+  --page-width: min(1200px, 100% - 2rem);
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  background-attachment: fixed;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  width: 100%;
+  max-width: var(--page-width);
+  margin: 0 auto 4rem;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+}
+
+p {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+button {
+  font: inherit;
+  border: none;
+  cursor: pointer;
+}
+
+.noscript {
+  background: #ffeb3b;
+  color: #1c1c1c;
+  padding: 1rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.hero {
+  width: 100%;
+  max-width: var(--page-width);
+  margin: 2rem auto 3rem;
+  padding: 2.5rem;
+  border-radius: 28px;
+  background: linear-gradient(135deg, rgba(188, 26, 44, 0.92), rgba(82, 8, 18, 0.94));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 22% 22%, rgba(255, 255, 255, 0.14), transparent 58%);
+  pointer-events: none;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.8rem;
+  margin-bottom: 0.6rem;
+  color: var(--accent);
+}
+
+.hero__sign-out {
+  background: rgba(255, 255, 255, 0.16);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 0.6rem 1.3rem;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+.hero__sign-out:hover {
+  background: rgba(255, 255, 255, 0.22);
+  transform: translateY(-1px);
+}
+
+.calendar {
+  background: rgba(96, 14, 22, 0.7);
+  border-radius: 30px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: var(--shadow);
+}
+
+.calendar__header {
+  margin-bottom: 1.5rem;
+}
+
+.calendar__hint {
+  margin-bottom: 0;
+}
+
+.calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.calendar__door {
+  position: relative;
+  border-radius: 18px;
+  padding: 1.5rem 1rem;
+  background: var(--card);
+  color: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  min-height: 120px;
+  transition: transform 200ms ease, background 200ms ease, border-color 200ms ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+}
+
+.calendar__number {
+  display: none;
+}
+
+.calendar__door::before,
+.calendar__door::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 0;
+}
+
+.calendar__door::before {
+  background-image: var(--door-image, var(--door-fallback));
+  background-size: cover;
+  background-position: center;
+  opacity: 0.95;
+  transition: transform 200ms ease, filter 200ms ease, opacity 200ms ease;
+}
+
+.calendar__door::after {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.28));
+  transition: opacity 200ms ease;
+}
+
+.calendar__door > * {
+  position: relative;
+  z-index: 1;
+}
+
+.calendar__status {
+  display: inline-block;
+  transform: translateY(2em);
+  text-shadow:
+    -1px 0 3px #000,
+    0 1px 3px #000,
+    1px 0 3px #000,
+    0 -1px 3px #000,
+    0 0 8px #000;
+}
+
+.calendar__door:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.calendar__door:hover:not(:disabled) {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.32);
+}
+
+.calendar__door:hover:not(:disabled)::before {
+  transform: scale(1.05);
+  filter: brightness(1.05);
+}
+
+.calendar__door:hover:not(:disabled)::after {
+  opacity: 0.25;
+}
+
+.calendar__door:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.calendar__number {
+  font-size: 2.1rem;
+  font-weight: 600;
+}
+
+.calendar__status {
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+.calendar__door.available {
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+}
+
+.calendar__door.available:not(.played) {
+  background: var(--card-bright);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.calendar__door.available .calendar__status {
+  color: var(--accent-bright);
+}
+
+.calendar__door.upcoming .calendar__status {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.calendar__door.upcoming {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.calendar__door.played {
+  opacity: 0.7;
+  border-color: rgba(255, 255, 255, 0.22);
+  filter: saturate(0.85);
+}
+
+.calendar__door.played::after {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.55));
+}
+
+.calendar__door.played .calendar__status {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.calendar__progress {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.video-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+}
+
+.video-modal.hidden {
+  pointer-events: none;
+  opacity: 0;
+}
+
+.video-modal:not(.hidden) {
+  animation: fadeIn 300ms ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.video-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(18, 2, 6, 0.85);
+}
+
+.video-modal__content {
+  position: relative;
+  width: min(960px, 92vw);
+  max-height: 90vh;
+  background: rgba(58, 10, 16, 0.94);
+  border-radius: 24px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.video-modal__player {
+  position: relative;
+  padding-top: 56.25%;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #000;
+}
+
+.video-modal__player video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+}
+
+.video-modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.16);
+  color: var(--text);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1rem;
+}
+
+.auth-gate {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(42, 6, 10, 0.86);
+  backdrop-filter: blur(12px);
+  padding: 2rem;
+  z-index: 50;
+}
+
+body.authorized .auth-gate {
+  display: none;
+}
+
+body.requires-auth .hero__sign-out {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.auth-gate__card {
+  width: min(420px, 100%);
+  background: rgba(76, 10, 18, 0.95);
+  padding: 2rem;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.auth-gate__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  font-size: 0.8rem;
+}
+
+.auth-gate__label {
+  font-weight: 600;
+}
+
+.auth-gate input {
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.8rem 1rem;
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--text);
+}
+
+.auth-gate button[type="submit"] {
+  background: linear-gradient(120deg, #ff5c6a, #ffffff);
+  border-radius: 999px;
+  padding: 0.85rem 1rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.auth-gate__hint {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.auth-gate__error {
+  min-height: 1.2rem;
+  color: var(--danger);
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .hero {
+    flex-direction: column;
+    padding: 2rem;
+  }
+
+  .calendar {
+    padding: 1.5rem;
+  }
+
+  .calendar__grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+
+  .video-modal__content {
+    padding: 1rem;
+  }
+}
